@@ -56,12 +56,12 @@ const StudentPortalApp = () => {
         <View style={styles.header}>
           <Text style={styles.title}>Student Portal</Text>
           <View style={styles.profileContainer}>
-            <View style={styles.profileImage} />
+            <Image source={{uri: 'https://res.cloudinary.com/dqtlhm4to/image/upload/v1749850421/e9803c20-4b11-45f2-9b70-9d91ba0ee7eb.png'}} style={styles.profileImage} />
           </View>
         </View>
 
         {/* PROGRES Header */}
-        <View style={styles.progresHeader} className='overflow-hidden relative justify-center items-center'>
+        <View className='m-4 h-[90px] rounded-2xl overflow-hidden relative justify-center items-center'>
           <Image 
             source={require('../assets/topcbg.jpg')}
             
@@ -78,21 +78,16 @@ const StudentPortalApp = () => {
               .map((service, index) => (
                 <TouchableOpacity
                   key={index}
-                  style={[styles.serviceButton, { backgroundColor: '#0F766E' }]}
+                  style={[styles.serviceButton, { backgroundColor: '#029578' }]}
                   activeOpacity={0.9}>
-                  <service.icon size={24} color="white" />
+                  <service.icon size={22} color="white" />
                   <Text style={styles.serviceLabel}>{service.label}</Text>
                 </TouchableOpacity>
               ))}
           </View>
 
           {/* Full Width Service */}
-          <TouchableOpacity
-            style={[styles.fullWidthService, { backgroundColor: '#0F766E' }]}
-            activeOpacity={0.8}>
-            <Grid3X3 size={24} color="white" />
-            <Text style={styles.serviceLabel}>Other services</Text>
-          </TouchableOpacity>
+          
         </View>
       </ScrollView>
 
@@ -102,7 +97,7 @@ const StudentPortalApp = () => {
           <TouchableOpacity
             style={[styles.navButton, currentView === 'home' && styles.activeNavButton]}
             onPress={() => setCurrentView('home')}>
-            <Home size={20} color={currentView === 'home' ? 'white' : '#64748B'} />
+            <Home size={20} color={currentView === 'home' ? 'white' : '#fff'} />
             <Text style={[styles.navLabel, currentView === 'home' && styles.activeNavLabel]}>
               Home
             </Text>
@@ -111,14 +106,14 @@ const StudentPortalApp = () => {
           <TouchableOpacity
             style={[styles.navButton, currentView === 'card' && styles.activeNavButton]}
             onPress={() => setCurrentView('card')}>
-            <CreditCard size={20} color={currentView === 'card' ? 'white' : '#64748B'} />
+            <CreditCard size={20} color={currentView === 'card' ? 'white' : '#fff'} />
             <Text style={[styles.navLabel, currentView === 'card' && styles.activeNavLabel]}>
               Cards
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.navButton}>
-            <User size={20} color="#64748B" />
+            <User size={20} color="#fff" />
             <Text style={styles.navLabel}>Profile</Text>
           </TouchableOpacity>
         </View>
@@ -127,17 +122,14 @@ const StudentPortalApp = () => {
   );
 
   const CardView = () => (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.cardViewContainer}>
-        {/* Card Holder */}
-        <View style={styles.cardHolder}>
-          <Text style={styles.cardHolderText}>Student ID Card</Text>
-          <Text style={styles.cardHolderSubtext}>Place your card here</Text>
-          <View style={styles.cardSlot}>
-            <View style={styles.cardOutline} />
-          </View>
+    <SafeAreaView style={styles.container} className= '  items-center'>
+        <View style={{width: '87%', height: '70%'}} className='bg-black mt-14 rounded-3xl overflow-hidden mb-44 elevation-2xl shadow-black' >
+          <Image 
+            source={{uri: 'https://res.cloudinary.com/dqtlhm4to/image/upload/v1749850261/b099ddd0-8731-400f-81e7-8c722ed5e659.png'}}
+            style={{ width: '100%', height: '100%' }}
+            className='absolute top-0 left-0' />
         </View>
-      </View>
+      
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNavContainer}>
@@ -188,7 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 20,
+    paddingVertical: 8,
   },
   title: {
     fontSize: 24,
@@ -259,23 +251,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    //marginBottom: 8,
   },
   serviceButton: {
     width: (width - 48) / 2,
-    minHeight: 100,
+    
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
-    padding: 16,
+    marginBottom: 8,
+    padding: 10,
   },
   serviceLabel: {
     color: 'white',
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 12,
+
+    fontWeight: '900',
     textAlign: 'center',
-    marginTop: 8,
+    marginTop: 3,
   },
   fullWidthService: {
     width: '100%',
@@ -343,7 +336,7 @@ const styles = StyleSheet.create({
   },
   bottomNav: {
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundColor: '#34364f',
     borderRadius: 16,
     paddingVertical: 12,
     paddingHorizontal: 8,
@@ -364,11 +357,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   activeNavButton: {
-    backgroundColor: '#14B8A6',
+    backgroundColor: '#029578',
   },
   navLabel: {
     fontSize: 12,
-    color: '#64748B',
+    color: '#ffffff',
     marginTop: 4,
   },
   activeNavLabel: {
