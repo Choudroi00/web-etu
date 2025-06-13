@@ -61,23 +61,13 @@ const StudentPortalApp = () => {
         </View>
 
         {/* PROGRES Header */}
-        <View style={styles.progresHeader} className='overflow-hidden relative'>
+        <View style={styles.progresHeader} className='overflow-hidden relative justify-center items-center'>
           <Image 
             source={require('../assets/topcbg.jpg')}
             
             className='absolute w-full h-full cover-fill'/>
 
-          <View style={styles.progresContent}>
-            <Text style={styles.progresTitle}>PROGRES</Text>
-            <Text style={styles.progresArabic}>وزارة التعليم العالي والبحث العلمي</Text>
-            <Text style={styles.progresFrench}>
-              Ministère de l'Enseignement Supérieur et de la Recherche Scientifique
-            </Text>
-            <View style={styles.flagContainer}>
-              <View style={styles.flagGreen} />
-              <View style={styles.flagRed} />
-            </View>
-          </View>
+          <Image source={require('../assets/assets_images_progres2.png')} className='h-12 w-28' />
         </View>
 
         {/* Services Grid */}
@@ -88,8 +78,8 @@ const StudentPortalApp = () => {
               .map((service, index) => (
                 <TouchableOpacity
                   key={index}
-                  style={[styles.serviceButton, { backgroundColor: service.color }]}
-                  activeOpacity={0.8}>
+                  style={[styles.serviceButton, { backgroundColor: '#0F766E' }]}
+                  activeOpacity={0.9}>
                   <service.icon size={24} color="white" />
                   <Text style={styles.serviceLabel}>{service.label}</Text>
                 </TouchableOpacity>
@@ -98,7 +88,7 @@ const StudentPortalApp = () => {
 
           {/* Full Width Service */}
           <TouchableOpacity
-            style={[styles.fullWidthService, { backgroundColor: '#0A3A35' }]}
+            style={[styles.fullWidthService, { backgroundColor: '#0F766E' }]}
             activeOpacity={0.8}>
             <Grid3X3 size={24} color="white" />
             <Text style={styles.serviceLabel}>Other services</Text>
