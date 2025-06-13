@@ -1,0 +1,214 @@
+name: Build Expo App
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-production:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # - name: Cache Android SDK
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       /usr/local/lib/android/sdk
+      #     key: android-sdk-${{ runner.os }}-api-35-build-tools-35.0.0
+      #     restore-keys: |
+      #       android-sdk-${{ runner.os }}-api-35-
+      #       android-sdk-${{ runner.os }}-
+
+      # - name: Cache Android NDK
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       /usr/local/lib/android/ndk/27.1.12297006
+      #     key: android-ndk-${{ runner.os }}-ndk-27.1.12297006
+      #     restore-keys: |
+      #       android-ndk-${{ runner.os }}-ndk-
+
+      # - name: Cache Gradle
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       ~/.gradle/caches
+      #       ~/.gradle/wrapper
+      #     key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      #     restore-keys: |
+      #       gradle-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Expo CLI
+        run: pnpm install -g @expo/cli@latest
+
+      - name: Setup EAS CLI
+        run: pnpm install -g eas-cli@latest
+
+      - name: Configure EAS Build
+        run: |
+          if [ ! -f eas.json ]; then
+            eas build --platform android --non-interactive --profile production
+          fi
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 35
+          build-tools: 35.0.0
+          ndk-version: 27.1.12297006
+
+      - name: Setup Android NDK
+        run: |
+          echo "ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME" >> $GITHUB_ENV
+          echo "ANDROID_NDK_HOME=$ANDROID_NDK_LATEST_HOME" >> $GITHUB_ENV
+
+      - name: Pre-build setup
+        run: |
+          npx expo install --fix
+          if grep -q '"developmentClient"' app.json app.config.js 2>/dev/null; then
+            npx expo prebuild --clean --platform android
+          fi
+
+      - name: Build for Android (Production)
+        run: |
+          eas build --platform android --local --non-interactive --profile production
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Upload production build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-production-build
+          path: |
+            **/*.apk
+            **/*.aab
+          retention-days: 30
+
+  build-development:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # - name: Cache Android SDK
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       /usr/local/lib/android/sdk/
+      #     key: android-sdk-${{ runner.os }}-api-35-build-tools-35.0.0
+      #     restore-keys: |
+      #       android-sdk-${{ runner.os }}-api-35-
+      #       android-sdk-${{ runner.os }}-
+
+      # - name: Cache Android NDK
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       /usr/local/lib/android/ndk/27.1.12297006
+      #     key: android-ndk-${{ runner.os }}-ndk-27.1.12297006
+      #     restore-keys: |
+      #       android-ndk-${{ runner.os }}-ndk-
+
+      # - name: Cache Gradle
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       ~/.gradle/caches
+      #       ~/.gradle/wrapper
+      #     key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      #     restore-keys: |
+      #       gradle-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Expo CLI
+        run: pnpm install -g @expo/cli@latest
+
+      - name: Setup EAS CLI
+        run: pnpm install -g eas-cli@latest
+
+      - name: Configure EAS Build
+        run: |
+          if [ ! -f eas.json ]; then
+            eas build --platform android --non-interactive --profile development
+          fi
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 35
+          build-tools: 35.0.0
+          ndk-version: 27.1.12297006
+
+      - name: Setup Android NDK
+        run: |
+          echo "ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME" >> $GITHUB_ENV
+          echo "ANDROID_NDK_HOME=$ANDROID_NDK_LATEST_HOME" >> $GITHUB_ENV
+
+      - name: Pre-build setup
+        run: |
+          npx expo install --fix
+          if grep -q '"developmentClient"' app.json app.config.js 2>/dev/null; then
+            npx expo prebuild --clean --platform android
+          fi
+
+      - name: Build for Android (Development)
+        run: |
+          eas build --platform android --local --non-interactive --profile development
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Upload development build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-development-build
+          path: |
+            **/*.apk
+            **/*.aab
+          retention-days: 30
