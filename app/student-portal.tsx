@@ -48,11 +48,10 @@ const StudentPortalApp = () => {
 
   const HomeView = () => (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
+      <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+        showsVerticalScrollIndicator={false}>
         {/* Title and Profile */}
         <View style={styles.header}>
           <Text style={styles.title}>Student Portal</Text>
@@ -62,7 +61,12 @@ const StudentPortalApp = () => {
         </View>
 
         {/* PROGRES Header */}
-        <View style={styles.progresHeader}>
+        <View style={styles.progresHeader} className='overflow-hidden relative'>
+          <Image 
+            source={require('../assets/topcbg.jpg')}
+            
+            className='absolute w-full h-full cover-fill'/>
+
           <View style={styles.progresContent}>
             <Text style={styles.progresTitle}>PROGRES</Text>
             <Text style={styles.progresArabic}>وزارة التعليم العالي والبحث العلمي</Text>
@@ -79,23 +83,23 @@ const StudentPortalApp = () => {
         {/* Services Grid */}
         <View style={styles.servicesContainer}>
           <View style={styles.servicesGrid}>
-            {services.filter(service => !service.fullWidth).map((service, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[styles.serviceButton, { backgroundColor: service.color }]}
-                activeOpacity={0.8}
-              >
-                <service.icon size={24} color="white" />
-                <Text style={styles.serviceLabel}>{service.label}</Text>
-              </TouchableOpacity>
-            ))}
+            {services
+              .filter((service) => !service.fullWidth)
+              .map((service, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[styles.serviceButton, { backgroundColor: service.color }]}
+                  activeOpacity={0.8}>
+                  <service.icon size={24} color="white" />
+                  <Text style={styles.serviceLabel}>{service.label}</Text>
+                </TouchableOpacity>
+              ))}
           </View>
 
           {/* Full Width Service */}
           <TouchableOpacity
             style={[styles.fullWidthService, { backgroundColor: '#0A3A35' }]}
-            activeOpacity={0.8}
-          >
+            activeOpacity={0.8}>
             <Grid3X3 size={24} color="white" />
             <Text style={styles.serviceLabel}>Other services</Text>
           </TouchableOpacity>
@@ -107,24 +111,22 @@ const StudentPortalApp = () => {
         <View style={styles.bottomNav}>
           <TouchableOpacity
             style={[styles.navButton, currentView === 'home' && styles.activeNavButton]}
-            onPress={() => setCurrentView('home')}
-          >
+            onPress={() => setCurrentView('home')}>
             <Home size={20} color={currentView === 'home' ? 'white' : '#64748B'} />
             <Text style={[styles.navLabel, currentView === 'home' && styles.activeNavLabel]}>
               Home
             </Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
             style={[styles.navButton, currentView === 'card' && styles.activeNavButton]}
-            onPress={() => setCurrentView('card')}
-          >
+            onPress={() => setCurrentView('card')}>
             <CreditCard size={20} color={currentView === 'card' ? 'white' : '#64748B'} />
             <Text style={[styles.navLabel, currentView === 'card' && styles.activeNavLabel]}>
               Cards
             </Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.navButton}>
             <User size={20} color="#64748B" />
             <Text style={styles.navLabel}>Profile</Text>
@@ -152,24 +154,22 @@ const StudentPortalApp = () => {
         <View style={styles.bottomNav}>
           <TouchableOpacity
             style={[styles.navButton, currentView === 'home' && styles.activeNavButton]}
-            onPress={() => setCurrentView('home')}
-          >
+            onPress={() => setCurrentView('home')}>
             <Home size={20} color={currentView === 'home' ? 'white' : '#64748B'} />
             <Text style={[styles.navLabel, currentView === 'home' && styles.activeNavLabel]}>
               Home
             </Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
             style={[styles.navButton, currentView === 'card' && styles.activeNavButton]}
-            onPress={() => setCurrentView('card')}
-          >
+            onPress={() => setCurrentView('card')}>
             <CreditCard size={20} color={currentView === 'card' ? 'white' : '#64748B'} />
             <Text style={[styles.navLabel, currentView === 'card' && styles.activeNavLabel]}>
               Cards
             </Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.navButton}>
             <User size={20} color="#64748B" />
             <Text style={styles.navLabel}>Profile</Text>
