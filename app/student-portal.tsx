@@ -24,6 +24,7 @@ import {
   Home,
   User,
 } from 'lucide-react-native';
+import FlippableCard from './flippable-card'
 
 const { width, height } = Dimensions.get('window');
 
@@ -123,12 +124,7 @@ const StudentPortalApp = () => {
 
   const CardView = () => (
     <SafeAreaView style={styles.container} className= '  items-center'>
-        <View style={{width: '87%', height: '70%'}} className='bg-black mt-14 rounded-3xl overflow-hidden mb-44 elevation-2xl shadow-black' >
-          <Image 
-            source={{uri: 'https://res.cloudinary.com/dqtlhm4to/image/upload/v1749850261/b099ddd0-8731-400f-81e7-8c722ed5e659.png'}}
-            style={{ width: '100%', height: '100%' }}
-            className='absolute top-0 left-0' />
-        </View>
+        <FlippableCard />
       
 
       {/* Bottom Navigation */}
