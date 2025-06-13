@@ -26,7 +26,7 @@
     "icon": "./assets/ic_launcher.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/ic_launcher.png",
+      "image": "./assets/assets_images_progres2.png",
       "resizeMode": "contain",
       "backgroundColor": "#F9FAFB",
       "duration": 2000
